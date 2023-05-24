@@ -5,7 +5,7 @@ function getBroswerBase() {
     Sys.CookieYN = ua.cookieEnabled;                    //是否開啟Cookie
     Sys.javaYN = ua.javaEnabled();                    //是否支援javascript IE true為支援  Chrome、edge false為支援
     Sys.Boslanguage = ua.language;              //瀏覽器首要語言
-    //Sys.MobileYN = document.hasOwnProperty("ontouchstart");     //是否為行動裝置 電腦為false，行動裝置為true
+    Sys.MobileYN = document.hasOwnProperty("ontouchstart");     //是否為行動裝置 電腦為false，行動裝置為true
     ua = ua.userAgent;
     Sys.OSbase = ua.substring(ua.indexOf('(') + 1, ua.indexOf(')'));    //主機和位元
     ua = ua.toLowerCase();
@@ -34,8 +34,7 @@ function getSysOKYN(Sysobj) {
     if (Sysobj.broswer == "IE" && Sysobj.version != "11.0") msgHtml += "您的瀏覽器版本過低，請更新至IE11或下載最新的Microsoft Edge，Google Chrome瀏覽器!<br />";
     if (!Sysobj.CookieYN) msgHtml += "您的瀏覽器不支援Cookie功能，請開啟!<br />";
     if (msgHtml != "") {
-        msgHtml = "<div id='SysErrMsg' class='divMaskKT'></div><div class='alert alert-warning' style='z-index:99999; position:absolute; left:2%;top:30px;'>" + msgHtml + "</div>";
-        if ($("#SysErrMsg").length == 0) { $("body").append(msgHtml); }
+        $("#Basedate").append("<br /><br /><b>" + msgHtml + "</b>");
     }
 }
 /*偵測跨平台網頁元件版本*/
@@ -53,22 +52,19 @@ function CheckHiPKIv(SpanobjId) {
         };
         HiPKICimgV.onerror = function () {
             $("#hidd" + SpanobjId).val("未安裝憑證元件或未啟動服務");
-            $("#" + SpanobjId).hide();
+            $("#" + SpanobjId).text("未安裝憑證元件或未啟動服務");
         };
     } else {
         $("#" + SpanobjId).text($("#hidd" + SpanobjId).val());
         if ($("#" + SpanobjId).text().substr(0, 2) == "憑證") {
             $("#" + SpanobjId).css("color", "#666666");
-        } else if ($("#hidd" + SpanobjId).val() == "未安裝憑證元件或未啟動服務")
-        {
-            $("#AlertMoica").hide();
         }
     }
 }
 /*解析跨平台網頁版本JSON內容*/
 function setOutputV(output, Sysobj, SpanobjId) {
-    var retV = JSON.parse(output);
-    if (retV.ret_code == "0") {
+    let retV = JSON.parse(output);
+    if (retV.ret_code == "0" || retV.ret_code =="1979711503") {
         if (Sysobj.OSbase.indexOf("Windows") > -1) {
             if (retV.serverVersion < "1.3.4.103327") $("#" + SpanobjId).text("！憑證元件" + retV.serverVersion + "低於1.3.4.103327版可能會造成資安風險，請儘速下載更新");
         } else if (Sysobj.OSbase.indexOf("Mac")>-1) {

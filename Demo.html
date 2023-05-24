@@ -1,1 +1,262 @@
-﻿
+﻿<html>
+<head>
+    <title>自然人憑證讀取介接Jslibrary</title>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1" />
+    <style>
+        body {
+            margin-left: 5%;
+            font-family: Segoe UI, Arial,微軟正黑體;
+            background: #f8f7f7ff;
+        }
+
+        ul li, ol li {
+            font-size: 0.87em;
+            margin-top: 7px;
+            line-height: 1.5;
+        }
+
+            ul li a {
+                padding: 5px 7px;
+            }
+
+        .CodeArea {
+            background-color: #1d0707;
+            color: #ffffff;
+            padding: 5px 7px;
+            max-width: 400px;
+            text-align: left;
+        }
+
+        #DivNoteTxt {
+            padding: 7px;
+            width: 90%;
+            border: 3px solid #00dcce;
+            border-radius: 10px;
+            font-size: 1.07em;
+        }
+
+        strong {
+            color: #ae0020;
+            padding-left: 3px;
+            font-family: 微軟正黑體;
+            font-size: 11pt;
+        }
+
+        a, button {
+            display: inline-block;
+            text-align: center;
+            vertical-align: middle;
+            padding: 10px 20px;
+            border: 1px solid #9255c6;
+            border-radius: 8px;
+            background: #ee8aff;
+            background: -webkit-gradient(linear, left top, left bottom, from(#ee8aff), to(#9255c6));
+            background: -moz-linear-gradient(top, #ee8aff, #9255c6);
+            background: linear-gradient(to bottom, #ee8aff, #9255c6);
+            -webkit-box-shadow: #dc7fff 0px 1px 3px 0px;
+            -moz-box-shadow: #dc7fff 0px 1px 3px 0px;
+            box-shadow: #dc7fff 0px 1px 3px 0px;
+            text-shadow: #5c357c 1px 1px 1px;
+            font: normal normal bold 14px 微軟正黑體;
+            color: #f0f0f0;
+            text-decoration: none;
+        }
+
+            a:hover, button:hover {
+                border: 1px solid #b76af7;
+                background: #ffa6ff;
+                background: -webkit-gradient(linear, left top, left bottom, from(#ffa6ff), to(#af66ee));
+                background: -moz-linear-gradient(top, #ffa6ff, #af66ee);
+                background: linear-gradient(to bottom, #ffa6ff, #af66ee);
+                color: #f0f0f0;
+                text-decoration: none;
+                cursor: pointer;
+            }
+
+        #DivFooterTxt {
+            width: 80%;
+            max-width: 400px;
+            border-radius: 20px;
+            color: #efe5e5;
+            background-color: #4f4e4e;
+            display: none;
+            z-index: 97;
+            position: absolute;
+            opacity: 0.8;
+        }
+
+            #DivFooterTxt > pre {
+                margin: 10px;
+            }
+
+        input[type="text"] {
+            border-radius: 5px;
+            max-width: 80px;
+            padding: 5px;
+            font: normal normal 12px 微軟正黑體;
+            margin: 5px;
+        }
+
+        #DivModelBox {
+            width: 400px;
+            border-radius: 10px;
+            color: #efe5e5;
+            background-color: #4f4e4e;
+            display: none;
+            z-index: 99;
+            position: absolute;
+            top: 15%;
+            left: 40%;
+            text-align: center;
+            padding: 10px;
+        }
+
+        #DivModelMark {
+            width: 100vw;
+            height: 100vh;
+            background-color: #4f4e4e;
+            display: none;
+            position: absolute;
+            z-index: 98;
+            top: 0%;
+            left: 0%;
+            opacity: 0.4;
+        }
+
+        #TableShowBox {
+            color: #f2eeee;
+            border-collapse: collapse;
+        }
+
+            #TableShowBox tr th {
+                background-color: #9255c6;
+                padding: 5px 10px;
+                text-align: center;
+                font: normal normal bold 14px 微軟正黑體;
+                border: 1px solid #efe5e5;
+            }
+
+            #TableShowBox tr td {
+                padding: 5px 10px;
+                text-align: center;
+                font: normal normal 12px 微軟正黑體;
+                border: 1px solid #efe5e5;
+            }
+
+                #TableShowBox tr td:nth-child(2n) {
+                    background-color: #04b6ab;
+                }
+
+            #TableShowBox tr:hover {
+                background-color: #dc7fff;
+            }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="Scripts/JsbrowChk.js"></script>
+    <script type="text/javascript" src="Scripts/HiPKICertsKT.js"></script>
+    <script>
+        function OpenNote() {
+            let KonoDiv = document.getElementById('DivFooterTxt');
+            if (KonoDiv.style.display == 'table-row') {
+                KonoDiv.style.display = 'none';
+            } else {
+                KonoDiv.style.display = "table-row";
+            }
+        }
+        function btnValidation() {
+            document.getElementById('DivModelMark').style.display = "table-row";
+            setTimeout(() => {
+                Card_Validation($("#txtPIN").val(), Card_KTreBoj);
+            }, 50);
+        }
+        function Card_KTreBoj(certData, rtnCode, msg) {
+            console.log(certData);
+            if (rtnCode == "0") {
+            } else {
+                document.getElementById('TableShowBox').innerHTML = "<tr><th style='font-size: 1.5em'>" + msg.replace("\n", "<br />") +"</th></tr>";
+                document.getElementById('DivModelBox').style.display = "table-row";
+                document.getElementById('DivModelMark').style.display = "table-row";
+            }
+        }
+        function CloseShowBox() {
+            document.getElementById('DivModelBox').style.display = "none";
+            document.getElementById('DivModelMark').style.display = "none";
+        }
+        $(window).ready(function ($) {
+            const sBroswerBase = getBroswerBase();
+            $("#Basedate").append("broswer：&nbsp;" + sBroswerBase.broswer + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;version：&nbsp;" + sBroswerBase.version);
+            $("#Basedate").append("<br />language：&nbsp;" + sBroswerBase.Boslanguage);
+            $("#Basedate").append("<br />Cookie：&nbsp;" + sBroswerBase.CookieYN);
+            $("#Basedate").append("<br />OS：&nbsp;" + sBroswerBase.OSbase + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Mobile：&nbsp;" + sBroswerBase.MobileYN);
+            getSysOKYN(sBroswerBase);
+            CheckHiPKIv("AlertMoica");
+        });
+    </script>
+</head>
+<body>
+    <div id="DivNoteTxt">
+        自然人憑證為由台灣內政部發行之電子憑證，有時候客戶會要求系統，需透過驗證自然憑證登入或取得資料，以確保其安全性。本函式庫提供最輕量單純的方式，讀取介接內政部自然人憑證資料。
+        <br />
+        <ol>
+            <li>請直接引用參考HiPKICertsKT.js</li>
+            <li>驗證函式<br /><span class="CodeArea">Card_Validation(我是PIN碼, Card_KTreBoj);</span></li>
+            <li>
+                回應函式<br />
+                <pre class="CodeArea">
+function Card_KTreBoj(certData, rtnCode, msg) {
+    if (rtnCode == "0") {
+		//驗證通過動作
+    } else {
+		//驗證失敗動作
+    }
+}               </pre>
+            </li>
+            <li>採用callback才能讀取LocalServer</li>
+        </ol>
+        <ul>
+            <li>使用者須必須先下載安裝內政部憑證中心發行之【<a href="https://moica.nat.gov.tw/rac_plugin.html" target="_blank">跨平台網頁元件</a>】已讀取自然人憑證。</li>
+            <li>需要開始快顯，否則非IE瀏覽器，第二次跳出驗證會擋住</li>
+        </ul>
+        <a href="javascript:OpenNote();">其他說明&nbsp;▼</a>
+    </div>
+    <div id="DivFooterTxt">
+        <pre>
+IE：
+  1.採用ActiveX
+  2.不用新開頁面post資料
+  3.對callback處理為同步處理，故驗證時無任何訊息
+  4.承上，請自行鎖定畫面，和設定訊息
+非IE：
+  1.採用LocalServer
+  2.要新開頁面post資料
+  3.對callback處理為非同步處理，故驗證時能鎖定畫面
+  4.驗證時，鎖住畫面並彈出LocalServer視窗驗證
+
+  第一次驗證PIN是否正確(登入)
+  第二次驗證卡片內資訊(讀取)
+        </pre>
+    </div>
+    <form id="form1" method="post" action="javascript:btnValidation();">
+        <div>
+            <br />
+            PIN：<input id="txtPIN" type="text" autocomplete="off" required />
+            <button type="submit">驗&nbsp;&nbsp;證</button>
+            <hr />
+            <strong id="AlertMoica"></strong>
+            <br /><br />
+            <div id="Basedate"></div>
+            <input hidden="hidden" id="hiddAlertMoica" />
+        </div>
+
+        <div id="DivModelBox">
+            結果
+            <hr />
+            <table id="TableShowBox"></table>
+            <br />
+            <a href="javascript:CloseShowBox();">關閉</a>
+        </div>
+        <div id="DivModelMark"></div>
+    </form>
+</body>
+</html>
