@@ -90,7 +90,7 @@
                 margin: 10px;
             }
 
-        input[type="text"] {
+        input[type="password"] {
             border-radius: 5px;
             max-width: 80px;
             padding: 5px;
@@ -99,7 +99,7 @@
         }
 
         #DivModelBox {
-            width: 400px;
+            width: 430px;
             border-radius: 10px;
             color: #efe5e5;
             background-color: #4f4e4e;
@@ -107,7 +107,7 @@
             z-index: 99;
             position: absolute;
             top: 15%;
-            left: 40%;
+            left: 41%;
             text-align: center;
             padding: 10px;
         }
@@ -171,12 +171,21 @@
             }, 50);
         }
         function Card_KTreBoj(certData, rtnCode, msg) {
-            console.log(certData);
             if (rtnCode == "0") {
+                document.getElementById('TableShowBox').innerHTML = `<tr><th colspan="2">欄位名稱</th><th colspan="3">內容</th></tr>
+                                                                     <tr><td>憑證名稱<br />(label)</td><td colspan="3">${certData.label}</td></tr>
+                                                                     <tr><td>憑證使用類型<br />(usage)</td><td colspan="3">${certData.usage}</td></tr>
+                                                                     <tr><td>憑證所有人<br />(subjectDN)</td><td colspan="3">${certData.subjectDN}</td></tr>
+                                                                     <tr><td>卡片序號<br />(SerialNum)</td><td colspan="3">${certData.SerialNum}</td></tr>
+                                                                     <tr><td>身分證末四碼<br />(subjectID)</td><td colspan="3">${certData.subjectID}</td></tr>`;
+                /*
+                                                                     <tr><td>簽章資料Base64格式<br />(certB64)</td><td colspan="3">${certData.certB64}</td></tr>
+                                                                     <tr><td>憑證簽名<br />(Signed)</td><td colspan="3">${certData.signedData}</td></tr>
+                */
+                document.getElementById('DivModelBox').style.display = "table-row";
             } else {
                 document.getElementById('TableShowBox').innerHTML = "<tr><th style='font-size: 1.5em'>" + msg.replace("\n", "<br />") +"</th></tr>";
                 document.getElementById('DivModelBox').style.display = "table-row";
-                document.getElementById('DivModelMark').style.display = "table-row";
             }
         }
         function CloseShowBox() {
@@ -212,11 +221,11 @@ function Card_KTreBoj(certData, rtnCode, msg) {
     }
 }               </pre>
             </li>
-            <li>採用callback才能讀取LocalServer</li>
+            <li>callback讀取LocalServer(WebSocket)</li>
         </ol>
         <ul>
             <li>使用者須必須先下載安裝內政部憑證中心發行之【<a href="https://moica.nat.gov.tw/rac_plugin.html" target="_blank">跨平台網頁元件</a>】已讀取自然人憑證。</li>
-            <li>需要開始快顯，否則非IE瀏覽器，第二次跳出驗證會擋住</li>
+            <li>需要開啟快顯，否則非IE瀏覽器，第二次跳出驗證會擋住</li>
         </ul>
         <a href="javascript:OpenNote();">其他說明&nbsp;▼</a>
     </div>
@@ -228,7 +237,7 @@ IE：
   3.對callback處理為同步處理，故驗證時無任何訊息
   4.承上，請自行鎖定畫面，和設定訊息
 非IE：
-  1.採用LocalServer
+  1.採用LocalServer (WebSocket)
   2.要新開頁面post資料
   3.對callback處理為非同步處理，故驗證時能鎖定畫面
   4.驗證時，鎖住畫面並彈出LocalServer視窗驗證
@@ -240,7 +249,7 @@ IE：
     <form id="form1" method="post" action="javascript:btnValidation();">
         <div>
             <br />
-            PIN：<input id="txtPIN" type="text" autocomplete="off" required />
+            PIN：<input id="txtPIN" type="password" autocomplete="off" required />
             <button type="submit">驗&nbsp;&nbsp;證</button>
             <hr />
             <strong id="AlertMoica"></strong>
