@@ -19,29 +19,29 @@ The Natural Person Certificate is an electronic certificate (digital signature) 
 
 2.異步呼叫驗證函式
 ```javascript
-            setTimeout(() => {
-                Card_Validation($("#txtPIN").val(), Card_KTreBoj);
-            }, 50);
+setTimeout(() => {
+　　Card_Validation($("#txtPIN").val(), Card_KTreBoj);
+}, 50);
 ```
 
 3.取得certData物件資料
 ```javascript
-    function Card_KTreBoj(certData, rtnCode, msg) {
-        //action
-    }
+function Card_KTreBoj(certData, rtnCode, msg) {
+　　//action
+}
 ```
 
 *JsbrowChk.js 是選用的，他用於檢驗跨平台網頁元件版本和使用者環境 **可能需要依賴jquery**
 
 ## 讀取內容
 ```javascript
-        var Card_Data = {
-        label: "",      /*憑證名稱: cert1, cert2, ... */
-        usage: "",      /*使用類型: digitalSignature, keyEncipherment|dataEncipherment */
-        subjectDN: "",  /*自然人憑證所有人 姓名*/
-        subjectID: "",  /*身份證末4碼*/
-        certB64: "",    /*簽章用(usage=digitalSignature)憑證資料(Base64格式)*/
-        signedData: "",  /*以簽章憑證 Signed 的資料*/
-        SerialNum: ""    /*簽證序號*/
-    };
+var Card_Data = {
+　　label: "",      /*憑證名稱: cert1, cert2, ... */
+　　usage: "",      /*使用類型: digitalSignature, keyEncipherment|dataEncipherment */
+　　subjectDN: "",  /*自然人憑證所有人 姓名*/
+　　subjectID: "",  /*身份證末4碼*/
+　　certB64: "",    /*簽章用(usage=digitalSignature)憑證資料(Base64格式)*/
+　　signedData: "",  /*以簽章憑證 Signed 的資料*/
+　　SerialNum: ""    /*簽證序號*/
+};
 ```
